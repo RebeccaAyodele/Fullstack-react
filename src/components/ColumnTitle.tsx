@@ -1,1 +1,0 @@
-//Make column title bold and add paddings
