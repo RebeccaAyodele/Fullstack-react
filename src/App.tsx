@@ -3,11 +3,16 @@ import Column from "./components/Column";
 import Card from "./components/Card";
 import AddNewItem from "./AddNewItem";
 import UseReducer from "./components/hooks/UseReducer";
+import { useAppState } from "./components/hooks/AppStateContext";
 
 const App = () => {
+  const {state} = useAppState()
   return (
     <AppContainer>
-      <Column text="To Do">
+      {state.lists.map((list, i) => (
+        <Column text={list.text} key={list.id} index={i} />
+      ))}
+      {/* <Column text="To Do">
         <Card text="Generate app scaffold" />
       </Column>
       <Column text="In Progress">
@@ -15,7 +20,7 @@ const App = () => {
       </Column>
       <Column text="Done">
         <Card text="Begin to use static typing" />
-      </Column>
+      </Column> */}
       <AddNewItem toggleButtonText="+ Add another list" onAdd={console.log} />
       <Column text="Use Reducer">
         <UseReducer />

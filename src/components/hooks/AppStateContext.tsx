@@ -1,18 +1,18 @@
-import {createContext} from "react"
+import { createContext, useContext } from "react";
 
 interface Task {
-    id: string
-    text: string
+  id: string;
+  text: string;
 }
 
 interface List {
-    id: string
-    text: string
-    tasks: Task[]
+  id: string;
+  text: string;
+  tasks: Task[];
 }
 
 export interface AppState {
-    lists: List[]
+  lists: List[];
 }
 
 const appData: AppState = {
@@ -36,14 +36,21 @@ const appData: AppState = {
 };
 
 interface AppStateContextProps {
-    state: AppState
+  state: AppState;
 }
 
-const AppStateContext = createContext<AppStateContextProps>({} as AppStateContextProps)
+const AppStateContext = createContext<AppStateContextProps>(
+  {} as AppStateContextProps
+);
 
 export const AppStateProvider = ({ children }: React.PropsWithChildren<{}>) => {
-    return (
-        <AppStateContext.Provider value={{state: appData}}>{children}</AppStateContext.Provider>
-    )
-}
+  return (
+    <AppStateContext.Provider value={{ state: appData }}>
+      {children}
+    </AppStateContext.Provider>
+  );
+};
 
+export const useAppState = () => {
+  return useContext(AppStateContext);
+};
