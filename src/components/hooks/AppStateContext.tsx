@@ -1,4 +1,5 @@
-import { createContext, useContext } from "react";
+import { createContext, useContext, useReducer } from "react";
+import { v4 as uuidv4 } from 'uuid';
 
 interface Task {
   id: string;
@@ -14,6 +15,16 @@ interface List {
 export interface AppState {
   lists: List[];
 }
+
+type Action =
+  | {
+      type: "ADD_LIST";
+      payload: string;
+    }
+  | {
+      type: "ADD_TASK";
+      payload: { text: string; taskId: string };
+    };
 
 const appData: AppState = {
   lists: [
@@ -43,9 +54,27 @@ const AppStateContext = createContext<AppStateContextProps>(
   {} as AppStateContextProps
 );
 
-export const AppStateProvider = ({ children }: React.PropsWithChildren<{}>) => {
+//USE REDUCER
+const appStateReducer = (state: AppState, action: Action): AppState => {
+  switch (action.type) {
+    case "ADD_LIST": {
+      return {
+        ...state,
+        lists: [
+          ...state.lists, {id: uuidv4(), text: action.payload, tasks: []}
+        ]
+      };
+    }
+    default: {
+      return state;
+    }
+  }
+};
+
+export const AppStateProvider = ({ children }: React.PropsWithChildren) => {
+  const [state, dispatch] = useReducer(appStateReducer, appData);
   return (
-    <AppStateContext.Provider value={{ state: appData }}>
+    <AppStateContext.Provider value={{ state, dispatch }}>
       {children}
     </AppStateContext.Provider>
   );
