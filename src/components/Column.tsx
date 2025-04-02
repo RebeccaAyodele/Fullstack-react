@@ -8,18 +8,19 @@ interface ColumnProps {
   index: number;
 }
 
-
-const Column = ({ text, index }: React.PropsWithChildren<ColumnProps>) => {
-  const { state } = useAppState()
+const Column = ({ text, index, id }: ColumnProps) => {
+  const { state, dispatch } = useAppState();
   return (
     <ColumnContainer>
       <ColumnTitle>{text}</ColumnTitle>
-      {state.lists[index].tasks.map(task => (
-        <Card text={task.text} key={task.id} />
+      {state.lists[index].tasks.map((task, i) => (
+        <Card text={task.text} key={task.id} index={i} />
       ))}
       <AddNewItem
         toggleButtonText="+ Add another task"
-        onAdd={console.log}
+        onAdd={text =>
+          dispatch({ type: "ADD_TASK", payload: { text, taskId: id } })
+        }
         dark
       />
     </ColumnContainer>
