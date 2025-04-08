@@ -12,7 +12,7 @@ const App = () => {
       {state.lists.map((list, i) => (
         <Column id={list.id} text={list.text} key={list.id} index={i} />
       ))}
-      <AddNewItem toggleButtonText="" onAdd={text => dispatch({type: "ADD_LIST", payload: text})} />
+      <AddNewItem toggleButtonText="+ Add another list" onAdd={text => dispatch({type: "ADD_LIST", payload: text})} />
       <Column text="Use Reducer">
         <UseReducer />
       </Column>
