@@ -1,4 +1,4 @@
-import {  } from "./styles";
+import { AppContainer } from "./styles";
 import Column from "./components/Column";
 // import Card from "./components/Card";
 import AddNewItem from "./AddNewItem";
